@@ -4,7 +4,8 @@
     <title>
     SignUp
     </title>
-  <link rel="stylesheet" type="text/css" href="">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="login_page_css">
   <script type="text/javascript" src=""></script>
 </head>
   <body>
@@ -16,6 +17,7 @@
       <input id="password" name="password" onchange="" placeholder="Password" type="password">
       </form>
       <input  name="loginbutton" value="Login" type="button">  
+      <input  name="signupbutton" value="Signup" type="button"> 
       </body>
 </html>
 

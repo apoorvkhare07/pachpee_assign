@@ -1,5 +1,24 @@
 h2
 {
- margin : auto 200px;
+ margin : 10px auto;
+ text-align:center;
   font-size : 40px;
 }
+
+#center{
+margin:10px auto;
+text-align:center;
+padding: 0px 20px ;
+}
+
+#email{
+margin : 10px 10px ;
+}
+
+#password {
+margin :10px 10px;
+margin-bottom : 20px;
+} 
+
+#rememberme {
+  margin-bottom:20px;}

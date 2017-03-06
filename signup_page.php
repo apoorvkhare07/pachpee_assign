@@ -12,8 +12,8 @@ function validateForm2() {
     len=x.length
       for(var i=0;i<len;i++){
         code = x.charCodeAt(i);
-        if ( !(code > 64 && code < 91) && 
-            !(code > 96 && code < 123)) { 
+        if ( (code > 64 && code < 91) && 
+            (code > 96 && code < 123)) { 
           alert("Only Alphabets allowed in Name field")
             break;  
         } 
@@ -75,9 +75,10 @@ function validateForm3(){
 
     alert("password and confirm password doesn't match")
   }
-}</script>
+}
+</script>
 </head>
-<body style="position: absolute; width: 100%;color: white;display: block; text-align:center;" onsubmit="validateForm6()">
+<body style="position: absolute; width: 100%;color: white;display: block; text-align:center;">
 <div id="topnav">
 
 <ul><li> <a href="#">Login</a></li>
@@ -95,9 +96,9 @@ function validateForm3(){
 <br>
 <input type="Password" name="confirm Password" id="a4" onchange="validateForm3()" placeholder="confirm Password" style="margin:10px;">
 <br>
-<input type="number" name="number" id="a5" onchange="validateForm4()" placeholder="Number" style="margin:10px;">
+<input type="number" name="Number" id="a5" onchange="validateForm4()" placeholder="Number" style="margin:10px;">
 <br>
-<input type="text" name="City" id="a6" onchange="validateForm5()" placeholder="City" style="margin:10px;">
+<input type="text" name="Username" id="a6" onchange="validateForm5()" placeholder="Username" style="margin:10px;">
 </div>
 <br>
 <div id="d">
@@ -124,42 +125,38 @@ function validateForm3(){
 </div>
 
 </form>
-
-</body>
 <?php
-function signin(){                                                    
-  $conn = new mysqli('192.168.121.187', 'first_year', 'first_year', 'first_year_db');
-  if ($conn->connect_error) {                                  
-    die("Connection failed: " . $conn->connect_error);    
+echo '<div style="color:red;"><h1>hello</h1></div>';
+function signup(){
+ echo '<div style="color:blue;">hey</div>';
+  $conn = new mysqli('192.168.121.187', 'first_year', 'first_year','first_year_db');
+  if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
   }
+echo '<div style="color:black;">asdasd</div>';
+$user=$_POST['Username'];
+$pass=sha1($_POST['Password']);
+$name=$_POST['Name'];
+$email=$_POST['Email'];
+$num=$_POST['Number'];
+$sql = "INSERT INTO info (username,password,email,name,mobile) VALUES ('$user','$pass','$email','$name','$num')";
 
-  $sql = "SELECT username,password FROM mydb WHERE username = " . $_POST ['email'];                                                           
-  $result = $conn->query($sql);
-  if ($result->num_rows > 0) {                                     
-    while($row = $result->fetch_assoc()) {                     
-      if($row["password"]!=$_POST ['password'])          
-      {
-        echo '<script>alert("Wrong email or password")</script>';} 
-    }            
-  }             
-}                                                                
-if ($_SERVER["REQUEST_METHOD"] == "POST") {                         
-  echo'chakbodi';                                                   
-  if (empty($_POST["email"])) {                                     
-    $nameErr = "Email is required"; 
-  }
-  else {
-    $email = $_POST["email"];
-    if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-      echo'<script>alert("Invalid email")</script> ';
-    }
+  if ($conn->query($sql) == TRUE) {
+       echo '<div style="color:green;">Signup Successfull</div>';
+ } else {
+        echo '<div style="color:green;">Signup UnSuccessfull</div>';
 
-  }
-  signin();
+ }
+
+ $conn->close();
+
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  signup();
 }
 
 ?>
-
+</body>
 </html>
-
 

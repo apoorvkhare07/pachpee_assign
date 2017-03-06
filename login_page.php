@@ -24,22 +24,32 @@ Remember me <br>
 <input  name="signupbutton" value="Signup" type="button"> 
 </div>
 <?php
+echo 'hello';
 function signin(){
   $conn = new mysqli('192.168.121.187', 'first_year', 'first_year', 'first_year_db');
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT username,password FROM mydb WHERE username = " . $_POST ['email'];
+  $sql = "SELECT username,password FROM info WHERE username = ".$_POST['email'];
   $result = $conn->query($sql);
+    echo $row['password'];
+          echo $_POST["password"];
+
+
   if ($result->num_rows > 0) {
+       echo $row['password'];
+       echo $row["password"];
+
     while($row = $result->fetch_assoc()) {
-      if($row["password"]!=$_POST ['password']) 
+      if($row["password"]===$_POST['password']) 
       {
-        echo '<script>alert("Wrong email or password")</script>';} 
+        echo '<script>alert("Login successfull")</script>';} 
     }
   }
-}
+  else{
+    echo 'login unsuccessfull';
+  }}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   echo'chakbodi';
   if (empty($_POST["email"])) {
@@ -49,10 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
       echo'<script>alert("Invalid email")</script> ';
+    }      else{
+       signin(); 
     }
 
-  }  
-  signin();
+  }
 }
 
 ?>

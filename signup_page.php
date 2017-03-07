@@ -76,7 +76,34 @@ function validateForm3(){
     alert("password and confirm password doesn't match")
   }
 }
+$(document).ready(function(){
+    $('#username').keyup(check_username); //use keyup,blur, or change
+    });
+function check_username(){
+  var username = $('#username').val();
+  jQuery.ajax({
+type: 'POST',
+url: 'signup_page.php',
+data: 'username='+ username,
+cache: false,
+success: function(response){
+if(response == 0){
+alert('available')
+}
+else {
+alert('not available')
+}
+}
+});
+}
+
+
+
+
 </script>
+
+
+
 </head>
 <body style="position: absolute; width: 100%;color: white;display: block; text-align:center;">
 <div id="topnav">
@@ -88,7 +115,7 @@ function validateForm3(){
 <h1>Signup</h1> 
 <div id="centerele" > 
 <form name="myform"  method="post" >
-<input type="Email" name="Email" id="a1" onchange="validateForm()" placeholder="Email" style="margin:10px;">
+<input type="Email" name="Email" id="username" onchange="validateForm()" placeholder="Email" style="margin:10px;">
 <br> 
 <input type="text" name="Name" id="a2" onchange="validateForm2()" placeholder="Name"style="margin:10px;">
 <br>
@@ -128,27 +155,27 @@ function validateForm3(){
 <?php
 echo '<div style="color:red;"><h1>hello</h1></div>';
 function signup(){
- echo '<div style="color:blue;">hey</div>';
+  echo '<div style="color:blue;">hey</div>';
   $conn = new mysqli('192.168.121.187', 'first_year', 'first_year','first_year_db');
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-echo '<div style="color:black;">asdasd</div>';
-$user=$_POST['Username'];
-$pass=sha1($_POST['Password']);
-$name=$_POST['Name'];
-$email=$_POST['Email'];
-$num=$_POST['Number'];
-$sql = "INSERT INTO info (username,password,email,name,mobile) VALUES ('$user','$pass','$email','$name','$num')";
+  echo '<div style="color:black;">asdasd</div>';
+  $user=$_POST['Username'];
+  $pass=sha1($_POST['Password']);
+  $name=$_POST['Name'];
+  $email=$_POST['Email'];
+  $num=$_POST['Number'];
+  $sql = "INSERT INTO info (username,password,email,name,mobile) VALUES ('$user','$pass','$email','$name','$num')";
 
   if ($conn->query($sql) == TRUE) {
-       echo '<div style="color:green;">Signup Successfull</div>';
- } else {
-        echo '<div style="color:green;">Signup UnSuccessfull</div>';
+    echo '<div style="color:green;">Signup Successfull</div>';
+  } else {
+    echo '<div style="color:green;">Signup UnSuccessfull</div>';
 
- }
+  }
 
- $conn->close();
+  $conn->close();
 
 }
 

@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>
-SignUp
+Login
 </title>
 <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="login_page_css">
@@ -21,37 +21,29 @@ SignUp
 Remember me <br>
 <input  name="loginbutton" value="Login" type="submit">
 </form> 
-<input  name="signupbutton" value="Signup" type="button"> 
+<a href="http://192.168.121.187:8001/apoorv/signup_page.php">Sign Up</a>
 </div>
 <?php
-echo 'hello';
 function signin(){
   $conn = new mysqli('192.168.121.187', 'first_year', 'first_year', 'first_year_db');
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-
-  $sql = "SELECT username,password FROM info WHERE username = ".$_POST['email'];
+$mail=$_POST['email'];
+  $sql = "SELECT password FROM info WHERE email = '$mail'";
   $result = $conn->query($sql);
-    echo $row['password'];
-          echo $_POST["password"];
 
+echo $_POST['email'];
 
-  if ($result->num_rows > 0) {
-       echo $row['password'];
-       echo $row["password"];
-
+  if($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-      if($row["password"]===$_POST['password']) 
+      if($row["password"]===sha1($_POST['password'])) 
       {
         echo '<script>alert("Login successfull")</script>';} 
-    }
-  }
   else{
     echo 'login unsuccessfull';
-  }}
+  }}}}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  echo'chakbodi';
   if (empty($_POST["email"])) {
     $nameErr = "Email is required";
   }

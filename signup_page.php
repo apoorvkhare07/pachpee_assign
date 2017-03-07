@@ -82,7 +82,7 @@ alert("check");
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("a6").innerHTML = this.responseText;
+       alert(this.responseText);
     }
   };
   alert(str);
@@ -100,13 +100,13 @@ alert("check");
 <body style="position: absolute; width: 100%;color: white;display: block; text-align:center;">
 <div id="topnav">
 
-<ul><li> <a href="#">Login</a></li>
+  <ul><li> <a href="#">Login</a></li>
 </ul>
 </div>
 <div id="Center">
 <h1>Signup</h1> 
 <div id="centerele" > 
-<form name="myform"  method="post" >
+<form name="myform"  method="get" >
 <input type="Email" name="Email" id="username" onchange="validateForm()"  placeholder="Email" style="margin:10px;">
 <br> 
 <input type="text" name="Name" id="a2" onchange="validateForm2()" placeholder="Name"style="margin:10px;">
@@ -145,25 +145,23 @@ alert("check");
 
 </form>
 <?php
+  echo '<div style="color:red;"><h1>hello</h1></div>';
+  function signup(){
+    echo '<div style="color:blue;">hey</div>';
+    $conn = new mysqli('192.168.121.187', 'first_year', 'first_year','first_year_db');
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+       }
+    echo '<div style="color:black;">asdasd</div>';
+    $user=$_POST['Username'];
+    $pass=sha1($_POST['Password']);
+    $name=$_POST['Name'];
+    $email=$_POST['Email'];
+    $num=$_POST['Number'];
+    $sql = "INSERT INTO info (username,password,email,name,mobile) VALUES ('$user','$pass','$email','$name','$num')";
 
-
-echo '<div style="color:red;"><h1>hello</h1></div>';
-function signup(){
-  echo '<div style="color:blue;">hey</div>';
-  $conn = new mysqli('192.168.121.187', 'first_year', 'first_year','first_year_db');
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-  }
-  echo '<div style="color:black;">asdasd</div>';
-  $user=$_POST['Username'];
-  $pass=sha1($_POST['Password']);
-  $name=$_POST['Name'];
-  $email=$_POST['Email'];
-  $num=$_POST['Number'];
-  $sql = "INSERT INTO info (username,password,email,name,mobile) VALUES ('$user','$pass','$email','$name','$num')";
-
-  if ($conn->query($sql) == TRUE) {
-    echo '<div style="color:green;">Signup Successfull</div>';
+     if ($conn->query($sql) == TRUE) {
+      echo '<div style="color:green;">Signup Successfull</div>';
   } else {
     echo '<div style="color:green;">Signup UnSuccessfull</div>';
 
@@ -173,7 +171,7 @@ function signup(){
 
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
   signup();
 }
 

@@ -29,7 +29,7 @@ function signin(){
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-$mail=$_POST['email'];
+  $mail=$_POST['email'];
   $sql = "SELECT password FROM info WHERE email = '$mail'";
   $result = $conn->query($sql);
 

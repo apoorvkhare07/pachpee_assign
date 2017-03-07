@@ -23,7 +23,7 @@ function validateForm2() {
 }
 
 function validateForm4(){
-  var y = document.forms["myform"]["number"].value;
+  var y = document.forms["myform"]["Number"].value;
   var reg=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
   if(!y.match(reg))
   {
@@ -73,31 +73,23 @@ function validateForm3(){
   else if ( p1!=p2 )
   {
 
-    alert("password and confirm password doesn't match")
+    alert("psword and confirm password doesn'ast match")
   }
 }
-$(document).ready(function(){
-    $('#username').keyup(check_username); //use keyup,blur, or change
-    });
-function check_username(){
-  var username = $('#username').val();
-  jQuery.ajax({
-type: 'POST',
-url: 'signup_page.php',
-data: 'username='+ username,
-cache: false,
-success: function(response){
-if(response == 0){
-alert('available')
-}
-else {
-alert('not available')
-}
-}
-});
-}
 
+function check_username(str){
+alert("check");
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("a6").innerHTML = this.responseText;
+    }
+  };
+  alert(str);
+  xmlhttp.open("GET", "ajaxsignup_page.php?q=" + str, true);
+  xmlhttp.send();
 
+}
 
 
 </script>
@@ -115,7 +107,7 @@ alert('not available')
 <h1>Signup</h1> 
 <div id="centerele" > 
 <form name="myform"  method="post" >
-<input type="Email" name="Email" id="username" onchange="validateForm()" placeholder="Email" style="margin:10px;">
+<input type="Email" name="Email" id="username" onchange="validateForm()"  placeholder="Email" style="margin:10px;">
 <br> 
 <input type="text" name="Name" id="a2" onchange="validateForm2()" placeholder="Name"style="margin:10px;">
 <br>
@@ -125,7 +117,7 @@ alert('not available')
 <br>
 <input type="number" name="Number" id="a5" onchange="validateForm4()" placeholder="Number" style="margin:10px;">
 <br>
-<input type="text" name="Username" id="a6" onchange="validateForm5()" placeholder="Username" style="margin:10px;">
+<input type="text" name="Username" id="a6" onchange="check_username(this.value)" placeholder="Username" style="margin:10px;">
 </div>
 <br>
 <div id="d">
@@ -153,6 +145,8 @@ alert('not available')
 
 </form>
 <?php
+
+
 echo '<div style="color:red;"><h1>hello</h1></div>';
 function signup(){
   echo '<div style="color:blue;">hey</div>';

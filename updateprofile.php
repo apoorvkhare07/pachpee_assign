@@ -1,5 +1,6 @@
-<?php
+<?php 
 session_start();
+$guser=$_SESSION["user"]
 ?>
 <!DOCTYPE>
 <html>
@@ -9,9 +10,9 @@ Profile
 </title>
 </head>
 <body>
-<h3> Profile Page </h3>
+<h3> Update Profile </h3>
 <form name="profileform" method="post" enctype="multipart/form-data">
-User : <?php echo $_SESSION['user'] ?> 
+<?php echo $_SESSION["user"]; ?>
 <br><br>
 Branch :  
 <input type="text" name="branch" id="branch">
@@ -42,15 +43,15 @@ header('Location: http://192.168.121.187:8001/apoorv/confirmprofilepage.php');
 else{
 echo "upload unsuccessfull";
 }
-$fullname=$_SESSION["user"];
+$fullname=$_POST['fullname'];
 $branch=$_POST['branch'];
 $image=basename($_FILES["image"]["name"]);
 $cover=basename($_FILES["cover"]["name"]);
-$sql="INSERT INTO apoorv_profile (fullname,image,cover,branch) VALUES ('$fullname','$branch','$image','$cover')";
+$sql = "UPDATE apoorv_profile SET image='$branch',branch='$image',cover='$cover' WHERE fullname='$guser'";
 
 if($conn->query($sql) == TRUE){
  "INSERT INTO apoorv_profile (chec) VALUES(y);";
-  
+ 
 header('Location: http://192.168.121.187:8001/apoorv/confirmprofilepage.php');
 }
 else{

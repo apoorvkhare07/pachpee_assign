@@ -8,13 +8,11 @@ if ($conn->connect_error) {
 }
 
 $sql="SELECT username FROM info WHERE username='$q'";
-echo"hiii";
 $result= $conn->query($sql);
 if($result->num_rows > 0 ){
   echo "username not available";
 }
 else {
-echo"in else";
 }
 ?>  
 

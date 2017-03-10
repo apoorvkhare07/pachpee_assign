@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE>
 <html>
 <head>
@@ -6,10 +9,10 @@
 <body>
 <h1> NEW FEED </h1>
 <form name="feed_form" method="post">
-USER : <input type="text" id="user" name="user">
-<br><br>
-TIME : <input type="text" id="time" name="time">
-<br><p> Your Post Here : </p> 
+User : <?php echo $_SESSION["user"]; ?>
+<br>
+time : <?php echo date("h:i:sa"); ?>
+<p> Your Post Here : </p> 
 <textarea rows="20" cols="100" name="feed" id="feed">
 </textarea>
 <br><br>
@@ -21,15 +24,15 @@ TIME : <input type="text" id="time" name="time">
  if($conn->connect_error){
  die("Connection failed:". $conn->connect_error);}  
 if ($_SERVER["REQUEST_METHOD"] =="POST")
-    { 
-$n_user=$_POST['user'];
-$n_time=$_POST['time'];                                        
+    {
+$n_user=$_SESSION["user"];
 $n_feed=$_POST['feed'];
-$sql = "INSERT INTO apoorv_feeds (user,time,feed) VALUES ('$n_user','$n_time','$n_feed')";
-if ($conn->query($sql) == TRUE) {                                     
-  echo '<div style="color:green;"> Successfull</div>';           
-} else {                                                                 
-  echo '<div style="color:green;"> UnSuccessfull</div>';           
+$n_time=date("h:i:sa");
+$sql = "INSERT INTO apoorv_feeds (user,dt,feed) VALUES ('$n_user','$n_time','$n_feed')";
+if ($conn->query($sql) == TRUE) {
+  echo '<div style="color:green;"> Successfull</div>';
+} else {
+  echo '<div style="color:green;"> UnSuccessfull</div>';
 }
 }
  $sql = "SELECT * FROM apoorv_feeds";
@@ -38,12 +41,11 @@ if ($conn->query($sql) == TRUE) {
  if ($result->num_rows > 0) {
  while($row = $result->fetch_assoc()) {
    echo '<br> <br>';
-   echo "user : " . $row["user"]. '<br>'." time : " . $row["time"]. '<br>' . $row["feed"]. "<br>";
+   echo "user : " . $row["user"]. '<br>'." time : " . $row["dt"]. '<br>' . $row["feed"]. "<br>";
          }
  } else {
       echo "0 results";
  } 
-                                              
 
 ?>
 </body>

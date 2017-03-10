@@ -1,6 +1,19 @@
 <?php
 session_start();
-
+$conn = new mysqli('192.168.121.187', 'first_year', 'first_year','first_year_db');
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);   
+}
+$GLOBALS["user"]=$_SESSION["user"];
+$sql="SELECT * FROM info WHERE email='$user'";
+$result = $conn->query($sql);
+if($result->num_rows > 0){
+while($row = $result->fetch_assoc()) { 
+$GLOBALS['nam']=$row['name'];
+echo '<div style="color:red">'.$nam.'</div>';
+$GLOBALS['mob']=$row['mobile'];
+$GLOBALS['username']=$row['username'];
+}}
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,7 +58,7 @@ function validateForm(){
     var reg2=/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/
       if(!z.match(reg2))
       {
-      alert("Enter a valid Email id")
+        alert("Enter a valid Email id")
       } 
 
   } 
@@ -82,11 +95,14 @@ function validateForm3(){
 }
 
 function check_username(str){
+alert("check");
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+       alert(this.responseText);
     }
   };
+  alert(str);
   xmlhttp.open("GET", "ajaxsignup_page.php?q=" + str, true);
   xmlhttp.send();
 
@@ -101,27 +117,26 @@ function check_username(str){
 <body style="position: absolute; width: 100%;color: white;display: block; text-align:center;">
 <div id="topnav">
 
-  <ul><li> <a href="/apoorv/login_page.php">Login</a></li>
 </ul>
 </div>
 <div id="Center">
-<h1>Signup</h1> 
+<h1 style="color:black;">Update</h1> 
 <div id="centerele" > 
 <form name="myform"  method="POST" >
-<input type="Email" name="Email" id="username" onchange="validateForm()"  placeholder="Email" style="margin:10px;">
-<br> 
-<input type="text" name="Name" id="a2" onchange="validateForm2()" placeholder="Name"style="margin:10px;">
+<input type="Email" name="Email" id="username" value="<?php echo $_SESSION["user"]  ?>" onchange="validateForm()"  placeholder="Email" style="margin:10px;">
 <br>
-<input type="Password" name="Password" id="a3" placeholder="Password"style="margin:10px;">
+<input type="text" name="Name" id="a2" value="<?php echo $nam; ?>" onchange="validateForm2()" placeholder="Name"style="margin:10px;">
 <br>
-<input type="Password" name="confirm Password" id="a4" onchange="validateForm3()" placeholder="confirm Password" style="margin:10px;">
+<input type="password" name="password" id="a3"  placeholder="Password" style="margin:10px;">
 <br>
-<input type="number" name="Number" id="a5" onchange="validateForm4()" placeholder="Number" style="margin:10px;">
+<input type="password" name="confirm password" id="a4" onchange="validateform3()" placeholder="Confirm Password" style="margin:10px;">
 <br>
-<input type="text" name="Username" id="a6" onchange="check_username(this.value)" placeholder="Username" style="margin:10px;">
+<input type="number" name="Number" id="a5" value="<?php echo $mob ?>" onchange="validateForm4()" placeholder="Number" style="margin:10px;">
+<br>
+<input type="text" name="Username" id="a6" value="<?php echo $username ?>" onchange="check_username(this.value)" placeholder="Username" style="margin:10px;">
 </div>
 <br>
-<div id="d">
+
 <p style="color:black;">Educational Qualification <select name="dropdown" value="dropdown" id="dd" >
 <option value="select" selected="True" disabled="disabled" >select</option>
 <option>Undergraduate</option>
@@ -140,40 +155,37 @@ function check_username(str){
 </select>
 </div>
 <br>
-<input type="reset" name="reset" value="Reset">
 <input value="Submit" type="submit" name="reset">
 </div>
 
 </form>
 <?php
-  function signup(){
-    $conn = new mysqli('192.168.121.187', 'first_year', 'first_year','first_year_db');
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-       }
-    $user=$_POST['Username'];
-    $pass=sha1($_POST['Password']);
-    $name=$_POST['Name'];
-    $email=$_POST['Email'];
-    $num=$_POST['Number'];
-  $_SESSION["user"]=$email;
-  $_SESSION["username"]=$user;
-  $_SESSION["name"]=$name;
-
-$sql="INSERT INTO info VALUES ('$user','$pass','$email','$name','$num')";
-     if ($conn->query($sql) == TRUE) {
-  header('Location: http://192.168.121.187:8001/apoorv/profilepage.php');
-     } else {
-
- echo '<script> alert("Signup UnSuccessfull")</script>';}
-
-
-}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  signup();
+  
+$conn = new mysqli('192.168.121.187', 'first_year', 'first_year','first_year_db');
+$fuser=$_POST['Username'];
+    $fpass=sha1($_POST['Password']);
+    $fname=$_POST['Name'];
+    $femail=$_POST['Email'];
+    $fnum=$_POST['Number'];
+    $sql = "UPDATE info SET username='$fuser',password='$fpass',name='$fname',mobile='$fnum',email='$femail' WHERE email='$user'";
+    $sql1 ="UPDATE apoorv_profile SET fullname='$femail' WHERE fullname='$nam'";
+    
+mysqli_query($conn,$sql);
+mysqli_query($conn,$sql1);
+
+if ($conn->query($sql) == TRUE) {  
+ $_SESSION["user"]=$femail;
+  header("Location: http://192.168.121.187:8001/apoorv/updateprofile.php");
 }
+
+  }
+
+ 
+
+
+
 
 ?>
 </body>
 </html>
-

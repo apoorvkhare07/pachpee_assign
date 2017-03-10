@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,27 +26,47 @@ Remember me <br>
 </form> 
 <a href="http://192.168.121.187:8001/apoorv/signup_page.php">Sign Up</a>
 </div>
-<?php
+<?php 
+echo '<div style="color:green;">hulululu</div>';   
 function signin(){
   $conn = new mysqli('192.168.121.187', 'first_year', 'first_year', 'first_year_db');
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
+  echo '<div style="color:green;">hululu</div>'; 
   $mail=$_POST['email'];
-  $sql = "SELECT password FROM info WHERE email = '$mail'";
+  $_SESSION["user"]=$mail; 
+  $config_username = $mail;
+   $config_password = $_POST["password"];
+ $rememberme=$_POST["rememberme"];
+    $sql = "SELECT password FROM info WHERE email = '$mail'";
   $result = $conn->query($sql);
+  $suser=$_SESSION["user"];
+echo '<div style="color:green;">hululu</div>';
+if($rememberme==true){
 
-echo $_POST['email'];
+$cookie_name="randomkey";
+          $cookie_value="key";
+                    setcookie($cookie_name,$cookie_value, time()+(86400*10),"/");
+                            } 
 
-  if($result->num_rows > 0) {
+}
+
+if($result->num_rows > 0) {
+    echo"adsadasd";
     while($row = $result->fetch_assoc()) {
       if($row["password"]===sha1($_POST['password'])) 
       {
-        echo '<script>alert("Login successfull")</script>';} 
-  else{
-    echo 'login unsuccessfull';
-  }}}}
+       echo 'asdasd';
+         echo '<script>alert("Login successfull")</script>';
+        
+
+      header('Location: http://192.168.121.187:8001/apoorv/confirmprofilepage.php');
+      
+      }}
+    } } 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  echo '<div style="color:green;">hululu</div>'; 
   if (empty($_POST["email"])) {
     $nameErr = "Email is required";
   }
@@ -52,9 +75,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
       echo'<script>alert("Invalid email")</script> ';
     }      else{
-       signin(); 
-    }
+      echo '<div style="color:red;">hulul</div>';  
+      signin(); 
 
+    }
+     
   }
 }
 
